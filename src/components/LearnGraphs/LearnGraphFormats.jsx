@@ -132,12 +132,10 @@ const LearnGraphFormats = ({ graphFormats }) => {
       const connection =
         parseGmlLine(line) || parseGraphmlLine(line) || parseDotLine(line);
       if (connection) {
-        handleMouseEnterConnection(connection);
-      } else {
-        const match =
-          line.match(/id\s*=\s*"(\d+)"/) || line.match(/id\s+(\d+)/);
-        if (match) {
-          handleMouseEnterNode(match[1]);
+        if (connection.source && connection.target) {
+          handleMouseEnterConnection(connection);
+        } else if (connection.node) {
+          handleMouseEnterNode(connection.node);
         }
       }
     },
@@ -165,9 +163,9 @@ const LearnGraphFormats = ({ graphFormats }) => {
                 ([node, edges], index) => (
                   <div
                     key={index}
-                    className={`grid-item ${isNodeHovered(node) ? "hovered" : ""} ${isNodeCurrentOrTraversed(
-                      Number(node)
-                    )}`}
+                    className={`grid-item ${
+                      isNodeHovered(node) ? "hovered" : ""
+                    } ${isNodeCurrentOrTraversed(Number(node))}`}
                     onMouseEnter={() => handleMouseEnterNode(node)}
                     onMouseLeave={handleMouseLeave}
                   >
@@ -176,7 +174,10 @@ const LearnGraphFormats = ({ graphFormats }) => {
                       <span
                         key={edge}
                         className={`edge-item ${
-                          isConnectionHovered({ source: node, target: edge })
+                          isConnectionHovered({
+                            source: node,
+                            target: edge,
+                          })
                             ? "hovered"
                             : ""
                         }`}
@@ -357,8 +358,17 @@ const LearnGraphFormats = ({ graphFormats }) => {
 };
 
 const parseDotLine = (line) => {
-  const match = line.match(/(\d+)\s*--\s*(\d+)/);
-  return match ? { source: match[1], target: match[2] } : null;
+  const edgeMatch = line.match(/(\d+)\s*--\s*(\d+)/);
+  if (edgeMatch) {
+    return { source: edgeMatch[1], target: edgeMatch[2] };
+  }
+
+  const nodeMatch = line.match(/^(\d+);$/);
+  if (nodeMatch) {
+    return { node: nodeMatch[1] };
+  }
+
+  return null;
 };
 
 const parseGmlLine = (line) => {
