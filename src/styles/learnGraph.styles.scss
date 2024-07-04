@@ -176,3 +176,28 @@
       opacity 300ms ease-in-out;
   }
 }
+
+.collapsible-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  margin: 10px;
+  color: #666666;
+
+  h4 {
+    margin: 0;
+  }
+
+  svg {
+    transition: transform 0.3s;
+  }
+
+  .up {
+    transform: rotate(180deg);
+  }
+
+  .down {
+    transform: rotate(0deg);
+  }
+}

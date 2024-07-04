@@ -4,6 +4,8 @@ import PropTypes from "prop-types";
 import "./../../styles/controlDrawerUnit.styles.scss";
 import NumericControl from "./ControlUnits/NumericControl.jsx";
 import DropdownControl from "./ControlUnits/DropdownControl";
+import InputNumericControl from "./ControlUnits/InputNumericControl";
+import SliderControl from "./ControlUnits/SliderControl";
 
 const ControlDrawerUnit = ({
   type,
@@ -37,6 +39,30 @@ const ControlDrawerUnit = ({
           options={options}
           onChange={onChange}
           description={description}
+        />
+      );
+    case "numeric-input":
+      return (
+        <InputNumericControl
+          name={name}
+          value={value}
+          min={min}
+          max={max}
+          onChange={onChange}
+          description={description}
+          buttonChangeValue={buttonChangeValue}
+        />
+      );
+    case "slider":
+      return (
+        <SliderControl
+          name={name}
+          value={value}
+          min={min}
+          max={max}
+          onChange={onChange}
+          description={description}
+          buttonChangeValue={buttonChangeValue}
         />
       );
     default:

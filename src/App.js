@@ -17,9 +17,8 @@ import { HoverProvider } from "./contexts/HoverContext.jsx";
 import { TraversalAnimationProvider } from "./contexts/TraversalAnimationContext.jsx";
 const App = () => {
   const nodes = [
-    { id: 1, name: "Graph Builder", link: "/graph-builder" },
-    { id: 2, name: "Learn Graphs", link: "/learn-graphs" },
-    { id: 3, name: "Traversal Demo", link: "/traversal-demo" },
+    { id: 1, name: "Learn Graphs", link: "/learn-graphs" },
+    { id: 2, name: "Traversal Demo", link: "/traversal-demo" },
   ];
 
   const location = useLocation();

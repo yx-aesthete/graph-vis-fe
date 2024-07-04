@@ -1,7 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import ControlDrawerUnit from "./../../components/ControlDrawer/ControlDrawerUnit";
 import { minMaxValues, descriptions, algorithmsList } from "./controlSettings";
 import ButtonControl from "../ButtonControl";
+import { CSSTransition } from "react-transition-group";
+import { FaChevronDown, FaChevronUp } from "react-icons/fa";
+import "./../../styles/learnGraph.styles.scss";
 
 const LearnGraphsControls = ({
   numNodes,
@@ -31,6 +34,13 @@ const LearnGraphsControls = ({
   isTraversalAnimationActive,
   handleClickTraversalAnimationButton,
 }) => {
+  const [isAdvancedSettingsVisible, setIsAdvancedSettingsVisible] =
+    useState(false);
+
+  const toggleAdvancedSettings = () => {
+    setIsAdvancedSettingsVisible(!isAdvancedSettingsVisible);
+  };
+
   return (
     <div className="units-wrapper">
       <ControlDrawerUnit
@@ -42,7 +52,7 @@ const LearnGraphsControls = ({
         onChange={(name, value) => setAlgorithm(value)}
       />
       <ControlDrawerUnit
-        type="numeric"
+        type="numeric-input"
         name="START_NODE"
         value={startNode}
         min={minMaxValues.START_NODE.min}
@@ -64,7 +74,7 @@ const LearnGraphsControls = ({
         />
       )}
       <ControlDrawerUnit
-        type="numeric"
+        type="slider"
         name="ANIMATION_SPEED"
         value={animationSpeed}
         min={minMaxValues.ANIMATION_SPEED.min}
@@ -103,36 +113,49 @@ const LearnGraphsControls = ({
         }
         buttonChangeValue={minMaxValues.NUMBER_OF_EDGES.buttonChangeValue}
       />
-      <ControlDrawerUnit
-        type="numeric"
-        name="OPTIMAL_DISTANCE"
-        value={optimalDistance}
-        min={minMaxValues.OPTIMAL_DISTANCE.min}
-        max={minMaxValues.OPTIMAL_DISTANCE.max}
-        description={descriptions.OPTIMAL_DISTANCE}
-        onChange={(name, value) => setOptimalDistance(value)}
-        buttonChangeValue={minMaxValues.OPTIMAL_DISTANCE.buttonChangeValue}
-      />
-      <ControlDrawerUnit
-        type="numeric"
-        name="MAX_ITERATIONS"
-        value={maxIterations}
-        min={minMaxValues.MAX_ITERATIONS.min}
-        max={minMaxValues.MAX_ITERATIONS.max}
-        description={descriptions.MAX_ITERATIONS}
-        onChange={(name, value) => setMaxIterations(value)}
-        buttonChangeValue={minMaxValues.MAX_ITERATIONS.buttonChangeValue}
-      />
-      <ControlDrawerUnit
-        type="numeric"
-        name="NODE_SIZE"
-        value={nodeSize}
-        min={minMaxValues.NODE_SIZE.min}
-        max={minMaxValues.NODE_SIZE.max}
-        description={descriptions.NODE_SIZE}
-        onChange={(name, value) => setNodeSize(value)}
-        buttonChangeValue={minMaxValues.NODE_SIZE.buttonChangeValue}
-      />
+      <div className="collapsible-title" onClick={toggleAdvancedSettings}>
+        <h4>Show Node Draw Settings</h4>
+        {isAdvancedSettingsVisible ? <FaChevronUp /> : <FaChevronDown />}
+      </div>
+      <CSSTransition
+        in={isAdvancedSettingsVisible}
+        timeout={300}
+        classNames="slide"
+        unmountOnExit
+      >
+        <div className="advanced-settings">
+          <ControlDrawerUnit
+            type="numeric"
+            name="OPTIMAL_DISTANCE"
+            value={optimalDistance}
+            min={minMaxValues.OPTIMAL_DISTANCE.min}
+            max={minMaxValues.OPTIMAL_DISTANCE.max}
+            description={descriptions.OPTIMAL_DISTANCE}
+            onChange={(name, value) => setOptimalDistance(value)}
+            buttonChangeValue={minMaxValues.OPTIMAL_DISTANCE.buttonChangeValue}
+          />
+          <ControlDrawerUnit
+            type="numeric"
+            name="MAX_ITERATIONS"
+            value={maxIterations}
+            min={minMaxValues.MAX_ITERATIONS.min}
+            max={minMaxValues.MAX_ITERATIONS.max}
+            description={descriptions.MAX_ITERATIONS}
+            onChange={(name, value) => setMaxIterations(value)}
+            buttonChangeValue={minMaxValues.MAX_ITERATIONS.buttonChangeValue}
+          />
+          <ControlDrawerUnit
+            type="numeric"
+            name="NODE_SIZE"
+            value={nodeSize}
+            min={minMaxValues.NODE_SIZE.min}
+            max={minMaxValues.NODE_SIZE.max}
+            description={descriptions.NODE_SIZE}
+            onChange={(name, value) => setNodeSize(value)}
+            buttonChangeValue={minMaxValues.NODE_SIZE.buttonChangeValue}
+          />
+        </div>
+      </CSSTransition>
       <ControlDrawerUnit
         type="dropdown"
         name="CONNECTIVITY"
@@ -143,6 +166,10 @@ const LearnGraphsControls = ({
           handleConnectivityChange({ target: { name, value } })
         }
       />
+      <ButtonControl
+        onClick={fetchAndGenerateGraph}
+        label="Generate Random Graph"
+      />
       {error && <p style={{ color: "red" }}>{error}</p>}
       {infoMessage && (
         <p
@@ -150,10 +177,6 @@ const LearnGraphsControls = ({
           dangerouslySetInnerHTML={{ __html: infoMessage }}
         ></p>
       )}
-      <ButtonControl
-        onClick={fetchAndGenerateGraph}
-        label="Generate Random Graph"
-      />
     </div>
   );
 };

@@ -14,12 +14,8 @@ const LearnGraphFormats = ({ graphFormats }) => {
     handleMouseLeave,
   } = useHover();
 
-  const {
-    traversedNodes,
-    currentNode,
-    isTraversalAnimationActive,
-    isTraversalAnimationComplete,
-  } = useAnimation();
+  const { traversedNodes, currentNode, isTraversalAnimationActive } =
+    useAnimation();
 
   const [openSections, setOpenSections] = useState({
     adjacencyList: true,
@@ -33,100 +29,92 @@ const LearnGraphFormats = ({ graphFormats }) => {
     ? graphFormats.adjacency_matrix.length
     : 0;
 
-  const toggleSection = (section) => {
+  const toggleSection = useCallback((section) => {
     setOpenSections((prevState) => ({
       ...prevState,
       [section]: !prevState[section],
     }));
-  };
+  }, []);
 
-  const isNodeHovered = (node) => {
-    return node.toString() === hoveredNode;
-  };
+  const isNodeHovered = useCallback(
+    (node) => node.toString() === hoveredNode,
+    [hoveredNode]
+  );
 
-  const isConnectionHovered = (connection) => {
-    return (
+  const isConnectionHovered = useCallback(
+    (connection) =>
       hoveredConnection &&
       hoveredConnection.source === connection.source.toString() &&
-      hoveredConnection.target === connection.target.toString()
-    );
-  };
+      hoveredConnection.target === connection.target.toString(),
+    [hoveredConnection]
+  );
 
-  const isNodeCurrentOrTraversed = (node) => {
-    if (node === currentNode) {
-      return "current";
-    }
-    if (traversedNodes.includes(node)) {
-      return "traversed";
-    }
-    return "";
-  };
+  const isNodeCurrentOrTraversed = useCallback(
+    (node) => {
+      if (node === currentNode) {
+        return "current";
+      }
+      if (traversedNodes.includes(node)) {
+        return "traversed";
+      }
+      return "";
+    },
+    [currentNode, traversedNodes]
+  );
 
-  const processText = (text) => {
+  const processText = useCallback((text) => {
     if (!text) return [];
     return text.split("\n").map((line) => line.trim());
-  };
+  }, []);
 
-  const highlightLine = (line) => {
-    if (hoveredNode) {
-      return new RegExp(`\\b${hoveredNode}\\b`).test(line);
-    }
-    if (hoveredConnection) {
-      return (
-        new RegExp(`\\b${hoveredConnection.source}\\b`).test(line) &&
-        new RegExp(`\\b${hoveredConnection.target}\\b`).test(line)
-      );
-    }
-    if (currentNode && line.includes(currentNode.toString())) {
-      return true;
-    }
-    if (
-      traversedNodes &&
-      traversedNodes.some((node) => line.includes(node.toString()))
-    ) {
-      return true;
-    }
-    return false;
-  };
+  const highlightLine = useCallback(
+    (line) => {
+      if (hoveredNode) {
+        return new RegExp(`\\b${hoveredNode}\\b`).test(line);
+      }
+      if (hoveredConnection) {
+        return (
+          new RegExp(`\\b${hoveredConnection.source}\\b`).test(line) &&
+          new RegExp(`\\b${hoveredConnection.target}\\b`).test(line)
+        );
+      }
+      if (currentNode && line.includes(currentNode.toString())) {
+        return true;
+      }
+      if (
+        traversedNodes &&
+        traversedNodes.some((node) => line.includes(node.toString()))
+      ) {
+        return true;
+      }
+      return false;
+    },
+    [hoveredNode, hoveredConnection, currentNode, traversedNodes]
+  );
 
-  const highlightText = (lines) => {
-    return lines.map((line) => ({
-      line,
-      isHighlighted: highlightLine(line),
-    }));
-  };
+  const highlightText = useCallback(
+    (lines) => {
+      return lines.map((line) => ({
+        line,
+        isHighlighted: highlightLine(line),
+      }));
+    },
+    [highlightLine]
+  );
 
   const dotLines = useMemo(
     () => highlightText(processText(graphFormats.dot)),
-    [
-      graphFormats.dot,
-      hoveredNode,
-      hoveredConnection,
-      currentNode,
-      traversedNodes,
-    ]
+    [graphFormats.dot, highlightText, processText]
   );
 
   const gmlLines = useMemo(
     () => highlightText(processText(graphFormats.gml)),
-    [
-      graphFormats.gml,
-      hoveredNode,
-      hoveredConnection,
-      currentNode,
-      traversedNodes,
-    ]
+    [graphFormats.gml, highlightText, processText]
   );
 
   const graphmlLines = useMemo(
     () => highlightText(processText(graphFormats.graphml)),
-    [
-      graphFormats.graphml,
-      hoveredNode,
-      hoveredConnection,
-      currentNode,
-      traversedNodes,
-    ]
+    [graphFormats.graphml, highlightText, processText]
   );
 
   const handleMatrixMouseEnter = useCallback(
@@ -139,18 +127,22 @@ const LearnGraphFormats = ({ graphFormats }) => {
     [handleMouseEnterConnection]
   );
 
-  const handleMouseEnterNodeOrConnection = (line) => {
-    const connection =
-      parseGmlLine(line) || parseGraphmlLine(line) || parseDotLine(line);
-    if (connection) {
-      handleMouseEnterConnection(connection);
-    } else {
-      const match = line.match(/id\s*=\s*"(\d+)"/) || line.match(/id\s+(\d+)/);
-      if (match) {
-        handleMouseEnterNode(match[1]);
+  const handleMouseEnterNodeOrConnection = useCallback(
+    (line) => {
+      const connection =
+        parseGmlLine(line) || parseGraphmlLine(line) || parseDotLine(line);
+      if (connection) {
+        handleMouseEnterConnection(connection);
+      } else {
+        const match =
+          line.match(/id\s*=\s*"(\d+)"/) || line.match(/id\s+(\d+)/);
+        if (match) {
+          handleMouseEnterNode(match[1]);
+        }
       }
-    }
-  };
+    },
+    [handleMouseEnterConnection, handleMouseEnterNode]
+  );
 
   return (
     <div className="graph-formats">
@@ -296,18 +288,18 @@ const LearnGraphFormats = ({ graphFormats }) => {
       </div>
 
       <div className="format-section">
-        <h4 onClick={() => toggleSection("gmlFormat")}>
-          GML Format{" "}
-          {openSections.gmlFormat ? <FaChevronUp /> : <FaChevronDown />}
+        <h4 onClick={() => toggleSection("graphmlFormat")}>
+          GraphML Format{" "}
+          {openSections.graphmlFormat ? <FaChevronUp /> : <FaChevronDown />}
         </h4>
         <CSSTransition
-          in={openSections.gmlFormat}
+          in={openSections.graphmlFormat}
           timeout={300}
           classNames="slide"
           unmountOnExit
         >
           <pre>
-            {gmlLines.map(({ line, isHighlighted }, index) => (
+            {graphmlLines.map(({ line, isHighlighted }, index) => (
               <span
                 key={index}
                 className={`${
@@ -329,18 +321,18 @@ const LearnGraphFormats = ({ graphFormats }) => {
       </div>
 
       <div className="format-section">
-        <h4 onClick={() => toggleSection("graphmlFormat")}>
-          GraphML Format{" "}
-          {openSections.graphmlFormat ? <FaChevronUp /> : <FaChevronDown />}
+        <h4 onClick={() => toggleSection("gmlFormat")}>
+          GML Format{" "}
+          {openSections.gmlFormat ? <FaChevronUp /> : <FaChevronDown />}
         </h4>
         <CSSTransition
-          in={openSections.graphmlFormat}
+          in={openSections.gmlFormat}
           timeout={300}
           classNames="slide"
           unmountOnExit
         >
           <pre>
-            {graphmlLines.map(({ line, isHighlighted }, index) => (
+            {gmlLines.map(({ line, isHighlighted }, index) => (
               <span
                 key={index}
                 className={`${

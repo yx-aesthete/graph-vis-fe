@@ -1,5 +1,5 @@
 .unit-container {
-  padding: 10px;
+  padding: 6px 0px;
   background-color: #f0f0f0;
   border-radius: 5px;
   text-align: center;
@@ -9,7 +9,7 @@
   justify-content: center;
   align-items: center;
   margin: 0px 12px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.25);
 
   &:hover {
     background-color: #dcebfc;
@@ -193,7 +193,8 @@
   flex-direction: column;
   justify-content: center;
   gap: 12px;
-  // align-items: center;
+  padding-top: 12px;
+  padding-bottom: 12px;
 }
 
 // Checkbox Control

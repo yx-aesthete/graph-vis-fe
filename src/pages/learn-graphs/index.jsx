@@ -41,8 +41,8 @@ const LearnGraphs = () => {
   const calculateNodeSize = (numNodes) => {
     const baseSize =
       window.innerWidth < 1400
-        ? window.innerWidth * 0.02
-        : window.innerWidth * 0.006;
+        ? window.innerWidth * 0.024
+        : window.innerWidth * 0.012;
     const scalingFactor = Math.max(1, Math.log(numNodes) / 4); // Adjust the denominator to control the scaling sensitivity
     return Math.floor(baseSize / scalingFactor);
   };

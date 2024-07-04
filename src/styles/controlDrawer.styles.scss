@@ -19,7 +19,7 @@
     flex-direction: column;
     height: 100vh;
     background-color: #faf9f9;
-    overflow: hidden; // Ensure the content does not overflow the container
+    overflow-y: scroll;
   }
 
   &.closed {
@@ -59,7 +59,7 @@
   }
 
   .controls {
-    flex-grow: 1; // Allow controls to take remaining height
-    overflow-y: auto; // Enable vertical scrolling
+    flex-grow: 1;
+    overflow-y: auto;
   }
 }
