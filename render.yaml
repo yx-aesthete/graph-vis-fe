@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: BuzzyBeeFrontendApp
+    env: node
+    plan: free
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    envVars:
+      - key: REACT_APP_API_URL
+        value: https://graph-vis-be.onrender.com
