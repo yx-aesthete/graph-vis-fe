@@ -1,0 +1,8 @@
+.z-index-over-shadow {
+  z-index: 9999 !important;
+}
+
+.show-over-shadow {
+  z-index: 2; /* Ensure the content is above the shadow */
+  position: relative;
+}

@@ -1,0 +1,65 @@
+.drawer-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  // width: 25vw;
+  min-width: 300px;
+  padding-right: 0px;
+  height: 100vh;
+  z-index: 29 !important;
+  display: flex;
+  justify-content: flex-end;
+  background-color: #fff;
+  transition: transform 0.3s ease-in-out;
+  z-index: 100 !important;
+
+  .drawer-content {
+    z-index: 100 !important;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    background-color: #faf9f9;
+    overflow: hidden; // Ensure the content does not overflow the container
+  }
+
+  &.closed {
+    transform: translateX(-100%);
+
+    .arrow-always-visible-right-container {
+      .toggle-arrow {
+        &:hover {
+          transform: scale(3.75) translateX(8%);
+          color: #ff6347;
+        }
+      }
+    }
+
+    .info-hover {
+      color: #ffffffcc;
+      background-image: radial-gradient(
+        circle,
+        #0000003e,
+        #0000003e 1%,
+        #0000003e 90%
+      );
+      width: 200px;
+      font-size: 25px;
+      margin-left: 300px;
+      text-align: left;
+      position: absolute;
+      z-index: -1;
+      box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+      font-family: "Courier New", Courier, monospace;
+      opacity: 0;
+      transform: translateX(-10%);
+      transition:
+        opacity 0.3s ease-in-out,
+        transform 0.3s ease-in-out;
+    }
+  }
+
+  .controls {
+    flex-grow: 1; // Allow controls to take remaining height
+    overflow-y: auto; // Enable vertical scrolling
+  }
+}

@@ -1,0 +1,240 @@
+.arrow-always-visible-right-container {
+  height: 100vh;
+  width: 50px;
+  display: flex;
+  justify-content: flex-end; /* Align items to the end (right) */
+  align-items: center;
+  position: absolute; /* Absolute positioning */
+  top: 50%; /* Center vertically */
+  transform: translateY(-50%); /* Adjust for proper centering */
+  z-index: 1 !important;
+
+  .toggle-arrow {
+    width: fit-content;
+    height: fit-content;
+    cursor: pointer;
+    position: relative;
+  }
+}
+
+.background-circle {
+  cursor: pointer;
+  // circle styling
+  background-color: #ffffff85; /* Different color for distinction */
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.31);
+  border-radius: 50%;
+
+  // size
+  width: 140px; /* Size of the first circle */
+  height: 140px; /* Size of the first circle */
+
+  // initial position
+  position: absolute;
+  transform: translateY(-50%);
+  transform: translateX(15%);
+  z-index: 20;
+  &.hovered-first {
+    animation: scaleUpFirstCircle 0.15s ease-out forwards;
+  }
+
+  &.hovered-second {
+    background-color: pink; /* Change background to pink on hover */
+  }
+
+  &.open {
+    background-color: #f5f4f4;
+  }
+}
+
+.first-icon-container {
+  .first-icon {
+    cursor: pointer;
+    width: 45px;
+    height: 45px;
+    position: absolute;
+    transform: translateX(-12px) translateY(-20px); /* Align vertically */
+    color: #ff000091;
+    z-index: 21; /* On top */
+
+    &.closed {
+      &.hovered-first {
+        animation: scaleUpFirstIcon 0.15s ease-out forwards;
+      }
+    }
+
+    &.open {
+      transform: scaleX(-1) translateX(12px) translateY(-20px);
+      &.hovered-first {
+        animation: scaleUpFirstIconFlipped 0.15s ease-out forwards;
+      }
+    }
+  }
+}
+
+.second-background-circle {
+  cursor: pointer;
+  // circle styling
+  background-color: #ffffff75;
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.31);
+  border-radius: 50%;
+
+  // size
+  width: 265px; /* Size of the first circle */
+  height: 265px; /* Size of the first circle */
+
+  // initial position
+  position: absolute; /* Absolute positioning */
+  transform: translateY(-50%); /* Align vertically */
+  transform: translateX(20%); /* Align vertically */
+  z-index: 17;
+  &.hovered-second {
+    animation: scaleUpSecondCircle 0.15s ease-out forwards;
+  }
+
+  &.hovered-first {
+    display: none;
+  }
+
+  &.hide {
+    display: none;
+  }
+}
+
+.second-icon {
+  cursor: pointer;
+  // initial position, size, color
+  width: 25px;
+  height: 25px;
+  position: absolute;
+  transform: translateY(-50%); /* Align vertically */
+  transform: translateX(50px); /* Align vertically */
+  color: #ff000071;
+  z-index: 18;
+
+  &.hovered-second,
+  .second-background-circle.hovered-second ~ & {
+    animation: changeSecondIconColorOnSecondHovered 0.15s ease-out forwards;
+  }
+
+  &.hide {
+    display: none;
+  }
+}
+
+/* Hover effect when first circle or first icon is hovered */
+.background-circle.hovered-first ~ .second-background-circle,
+.background-circle.hovered-first ~ .second-icon,
+.first-icon-container .first-icon.hovered-first ~ .second-background-circle,
+.first-icon-container .first-icon.hovered-first ~ .second-icon {
+  animation: transparencyBlue 0.15s ease-out forwards;
+}
+
+/* Hover effect when second circle or second icon is hovered */
+.second-background-circle.hovered-second ~ .background-circle,
+.second-background-circle.hovered-second ~ .first-icon-container .first-icon,
+.second-icon.hovered-second ~ .background-circle,
+.second-icon.hovered-second ~ .first-icon-container .first-icon {
+  animation: transparencyPink 0.15s ease-out forwards;
+}
+
+@keyframes changeSecondIconColorOnSecondHovered {
+  0% {
+    color: #ff000071;
+    width: 25px;
+    height: 25px;
+    transform: translateY(-50%); /* Align vertically */
+    transform: translateX(50px); /* Align vertically */
+  }
+  100% {
+    color: #f42525d0;
+    width: 30px;
+    height: 30px;
+    transform: translateY(-50%); /* Align vertically */
+    transform: translateX(58px); /* Align vertically */
+  }
+}
+
+@keyframes scaleDownSecondCircle {
+  0% {
+    width: 265px; /* Size of the first circle */
+    height: 265px; /* Size of the first circle */
+  }
+  100% {
+    width: 245px; /* Size of the first circle */
+    height: 245px; /* Size of the first circle */
+  }
+}
+
+@keyframes scaleUpFirstCircle {
+  0% {
+    width: 140px; /* Size of the first circle */
+    height: 140px; /* Size of the first circle */
+    background-color: #ffffff85; /* Different color for distinction */
+  }
+  100% {
+    width: 200px; /* Size of the first circle */
+    height: 200px; /* Size of the first circle */
+    background-color: #ffffff; /* Different color for distinction */
+  }
+}
+
+@keyframes scaleUpFirstIcon {
+  0% {
+    width: 45px;
+    height: 45px;
+    transform: translateX(-12px) translateY(-20px); /* Align vertically */
+    color: #ff000091;
+  }
+  100% {
+    width: 55px;
+    height: 55px;
+    transform: translateX(-12px) translateY(-26px); /* Align vertically */
+    color: #f42525d0;
+  }
+}
+
+@keyframes scaleUpFirstIconFlipped {
+  0% {
+    width: 45px;
+    height: 45px;
+    transform: scaleX(-1) translateX(12px) translateY(-20px); /* Align vertically */
+    color: #ff000091;
+  }
+  100% {
+    width: 55px;
+    height: 55px;
+    transform: scaleX(-1) translateX(18px) translateY(-26px); /* Align vertically */
+    color: #f42525d0;
+  }
+}
+
+@keyframes scaleDownFirstIcon {
+  0% {
+    color: #f42525d0;
+  }
+  100% {
+    color: #ff00003f;
+  }
+}
+
+@keyframes scaleUpSecondCircle {
+  0% {
+    width: 265px; /* Size of the first circle */
+    height: 265px; /* Size of the first circle */
+    background-color: #ffffff75;
+  }
+  100% {
+    width: 300px; /* Size of the first circle */
+    height: 300px; /* Size of the first circle */
+    background-color: #ffffff;
+  }
+}
+
+@keyframes flip {
+  0% {
+    transform: scaleX(1);
+  }
+  100% {
+    transform: scaleX(-1);
+  }
+}

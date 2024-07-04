@@ -1,0 +1,272 @@
+.unit-container {
+  padding: 10px;
+  background-color: #f0f0f0;
+  border-radius: 5px;
+  text-align: center;
+  gap: 6px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 0px 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
+  &:hover {
+    background-color: #dcebfc;
+    transition: background-color 0.3s ease;
+  }
+
+  .control-section-unit {
+    min-width: 25vw;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .unit-name {
+    width: 100%;
+    text-align: center;
+    color: #333;
+    font-size: 1rem;
+    font-weight: 700;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+  }
+
+  .unit-input {
+    margin-right: auto;
+    margin-left: auto;
+    min-width: 56px;
+    text-align: center;
+    background-color: #20232a;
+    border: none;
+    border-radius: 4px;
+    color: #d3eff6;
+    font-size: 1rem;
+    font-weight: 500;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    transition:
+      background-color 0.3s ease,
+      box-shadow 0.3s ease;
+
+    &:focus {
+      outline: none;
+      background-color: #282c34;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    }
+  }
+
+  .unit-input-dropdown {
+    width: 40%;
+    max-width: 270px;
+    text-align: center;
+    background-color: #20232a;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+    color: #d3eff6;
+    font-size: 1rem;
+    font-weight: 500;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    padding: 8px;
+    transition:
+      background-color 0.3s ease,
+      box-shadow 0.3s ease;
+
+    &:focus {
+      outline: none;
+      background-color: #282c34;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    }
+  }
+
+  .control-button {
+    min-width: 50px;
+    background-color: #20232a;
+    border: none;
+    border-radius: 4px;
+    font-size: 1rem;
+    margin-right: auto;
+    margin-left: auto;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    transition:
+      background-color 0.3s ease,
+      box-shadow 0.3s ease;
+
+    &:hover {
+      background-color: #282c34;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    }
+
+    &:focus {
+      outline: none;
+    }
+
+    &.decrement {
+      margin-right: 10px;
+      color: #fb6161;
+    }
+
+    &.increment {
+      margin-left: 10px;
+      color: #85affb;
+    }
+  }
+
+  .range-input {
+    width: 94%;
+    appearance: none;
+    height: 8px;
+    background: #20232a;
+    border-radius: 4px;
+    outline: none;
+    transition: background-color 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+
+    &::-webkit-slider-thumb {
+      appearance: none;
+      width: 16px;
+      height: 16px;
+      background: var(--thumb-color);
+      border-radius: 50%;
+      cursor: pointer;
+      transition:
+        background-color 0.3s ease,
+        transform 0.3s ease;
+
+      &:hover {
+        transform: scale(1.1);
+      }
+    }
+
+    &::-moz-range-thumb {
+      width: 16px;
+      height: 16px;
+      background: var(--thumb-color);
+      border-radius: 50%;
+      cursor: pointer;
+      transition:
+        background-color 0.3s ease,
+        transform 0.3s ease;
+
+      &:hover {
+        transform: scale(1.1);
+      }
+    }
+  }
+
+  .unit-description {
+    color: #666;
+    font-size: 0.85rem;
+  }
+}
+
+// Dropdown Control
+.unit-container .unit-input {
+  width: 100%;
+  text-align: center;
+  background-color: #20232a;
+  border: none;
+  border-radius: 4px;
+  color: #d3eff6;
+  font-size: 1rem;
+  font-weight: 500;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  padding: 8px;
+  transition:
+    background-color 0.3s ease,
+    box-shadow 0.3s ease;
+
+  &:focus {
+    outline: none;
+    background-color: #282c34;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  }
+}
+
+.units-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 12px;
+  // align-items: center;
+}
+
+// Checkbox Control
+.unit-container .unit-input {
+  width: 16px;
+  height: 16px;
+  background-color: #20232a;
+  border: none;
+  border-radius: 4px;
+  color: #d3eff6;
+  font-size: 1rem;
+  font-weight: 500;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  transition:
+    background-color 0.3s ease,
+    box-shadow 0.3s ease;
+  cursor: pointer;
+
+  &:focus {
+    outline: none;
+    background-color: #282c34;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  }
+}
+
+// Button Control
+.control-button {
+  min-width: 120px;
+  background-color: #20232a;
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  font-weight: 700;
+  margin-right: auto;
+  margin-left: auto;
+  cursor: pointer;
+  padding: 10px 20px;
+  color: #ffffff;
+  margin-left: auto;
+  margin-right: auto;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  transition:
+    background-color 0.3s ease,
+    box-shadow 0.3s ease;
+
+  &:hover {
+    background-color: #282c34;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  }
+
+  &:focus {
+    outline: none;
+    background-color: #282c34;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  }
+}
+
+.info-message {
+  color: #0056b3;
+  background-color: #e0f7ff;
+  padding: 10px 15px;
+  border-left: 4px solid #0056b3;
+  border-radius: 4px;
+  font-size: 1rem;
+  line-height: 1.5;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
+  margin: 10px 15px;
+}
+
+.info-message:hover {
+  background-color: #dcebfc;
+  color: #003d80;
+}
