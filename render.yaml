@@ -8,3 +8,7 @@ services:
     envVars:
       - key: REACT_APP_API_URL
         value: https://graph-vis-be.onrender.com
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
