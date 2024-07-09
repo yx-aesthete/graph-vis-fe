@@ -5,7 +5,6 @@ import ControlDrawer from "./../ControlDrawer/ControlDrawer.jsx";
 import SpinningGraphControls from "./SpinningGraphControls";
 import { useLocation } from "react-router-dom";
 import useControls from "./useControls";
-import FullPageReloaderSpinner from "./../../components/fullPageReloaderSpinner.jsx";
 
 const SpinningGraph = ({ nodes }) => {
   const { controls, updateControl } = useControls("spinningGraphControls");

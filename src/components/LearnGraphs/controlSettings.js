@@ -30,4 +30,11 @@ export const descriptions = {
   GOAL_NODE: "The goal node for traversal (if applicable).",
 };
 
-export const algorithmsList = ["bfs", "dfs", "dijkstra", "a_star"];
+export const algorithmsList = [
+  "bfs",
+  "dfs",
+  "dijkstra",
+  "a_star",
+  "nearest_neighbor",
+  "simulated_annealing",
+];

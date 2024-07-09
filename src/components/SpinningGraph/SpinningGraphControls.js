@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import ControlDrawerUnit from "./../ControlDrawer/ControlDrawerUnit";
 import { defaultControls, minMaxValues, descriptions } from "./constants";
 import useControls from "./useControls";
-import FullPageReloaderSpinner from "./../../components/fullPageReloaderSpinner.jsx"; // Ensure this import is correct
+import LoaderSpinner from "./../../components/LoaderSpinner.jsx"; // Ensure this import is correct
 
 const SpinningGraphControls = ({ storageKey, controls, updateControl }) => {
   const [showLoader, setShowLoader] = useState(false);
@@ -22,7 +22,7 @@ const SpinningGraphControls = ({ storageKey, controls, updateControl }) => {
 
   return (
     <div className="controls">
-      {showLoader && <FullPageReloaderSpinner />}
+      {showLoader && <LoaderSpinner />}
       {Object.keys(defaultControls).map((key) => {
         const control = defaultControls[key];
         const controlValue =

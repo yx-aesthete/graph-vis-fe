@@ -10,6 +10,7 @@ import "../../styles/shared.styles.scss";
 import "../../styles/learnGraph.styles.scss";
 import ControlDrawer from "../../components/ControlDrawer/ControlDrawer";
 import { useAnimation } from "../../contexts/TraversalAnimationContext"; // Import the custom hook
+import LoaderSpinner from "../../components/LoaderSpinner.jsx";
 
 const LearnGraphs = () => {
   const initialNodesAmount = [18, 24];
@@ -36,8 +37,6 @@ const LearnGraphs = () => {
   const [maxIterations, setMaxIterations] = useState(1000);
   const [optimalDistance, setOptimalDistance] = useState(100);
 
-  // ADJUST initial node size in build graph
-
   const calculateNodeSize = (numNodes) => {
     const baseSize =
       window.innerWidth < 1400
@@ -63,7 +62,6 @@ const LearnGraphs = () => {
     translateY: 0,
   });
 
-  // New states for traversal algorithm
   const [algorithm, setAlgorithm] = useState("bfs");
   const [startNode, setStartNode] = useState(1);
   const [goalNode, setGoalNode] = useState(null);
@@ -77,28 +75,21 @@ const LearnGraphs = () => {
     requestAndStartTraversal,
   } = useAnimation();
 
-  useEffect(() => {
-    fetchAndGenerateGraph(
-      numNodes,
-      numEdges,
-      connectivity,
-      setGraphData,
-      setError,
-      setTransform,
-      svgWidth,
-      svgHeight,
-      nodeSize,
-      maxIterations,
-      optimalDistance,
-      setGraphFormats // Pass the setGraphFormats callback
-    );
-  }, [numNodes, numEdges, maxIterations, optimalDistance, connectivity]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isDelayedLoading, setIsDelayedLoading] = useState(false);
 
-  useEffect(() => {
-    if (graphData.nodes.length > 0) {
-      setGraph(graphData);
-    }
-  }, [graphData, setGraph]);
+  const funnyWaitSentences = [
+    "While the database takes a coffee break, let's enjoy a moment of zen.",
+    "Hold on tight, the server is just tying its shoelaces.",
+    "Our backend is on a quick snack break, please enjoy this intermission.",
+    "The server hamster is taking a breather, one moment please.",
+    "Our backend is currently consulting its crystal ball, hold on a sec.",
+    "Hang tight, the server is practicing its yoga poses.",
+    "The database is currently on a power nap, please stand by. I'll wait him ok...",
+    "Our backend is playing hide and seek, give it a moment to be found.",
+    "The server is daydreaming, we'll be back to reality shortly.",
+    "Our backend is taking a bubble bath, we'll be back after it dries off.",
+  ];
 
   const handleNumNodesChange = (e) => {
     const newNumNodes = Number(e.target.value);
@@ -167,6 +158,30 @@ const LearnGraphs = () => {
     });
   };
 
+  useEffect(() => {
+    fetchAndGenerateGraph(
+      numNodes,
+      numEdges,
+      connectivity,
+      setGraphData,
+      setError,
+      setTransform,
+      svgWidth,
+      svgHeight,
+      nodeSize,
+      maxIterations,
+      optimalDistance,
+      setGraphFormats,
+      setIsLoading,
+      setIsDelayedLoading
+    );
+  }, [numNodes, numEdges, maxIterations, optimalDistance, connectivity]);
+  useEffect(() => {
+    if (graphData.nodes.length > 0) {
+      setGraph(graphData);
+    }
+  }, [graphData, setGraph]);
+
   return (
     <div className="show-over-shadow">
       <ControlDrawer
@@ -201,7 +216,8 @@ const LearnGraphs = () => {
               nodeSize,
               maxIterations,
               optimalDistance,
-              setGraphFormats // Pass the setGraphFormats callback
+              setGraphFormats,
+              setIsLoading // Pass the setLoading function
             );
             stopTraversalAnimation();
           }}
@@ -222,14 +238,18 @@ const LearnGraphs = () => {
           isTraversalAnimationActive={isTraversalAnimationActive}
         />
       </ControlDrawer>
-      <LearnGraphsGraph
-        graphData={graphData}
-        transform={transform}
-        svgWidth={svgWidth}
-        svgHeight={svgHeight}
-        nodeSize={nodeSize}
-        handleWheel={handleWheel}
-      />
+      {isLoading && isDelayedLoading ? (
+        <LoaderSpinner isDisplayBlock={true} text={funnyWaitSentences} />
+      ) : (
+        <LearnGraphsGraph
+          graphData={graphData}
+          transform={transform}
+          svgWidth={svgWidth}
+          svgHeight={svgHeight}
+          nodeSize={nodeSize}
+          handleWheel={handleWheel}
+        />
+      )}
       {graphFormats && <LearnGraphFormats graphFormats={graphFormats} />}
     </div>
   );

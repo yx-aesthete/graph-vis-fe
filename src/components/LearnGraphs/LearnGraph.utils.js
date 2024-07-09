@@ -1,5 +1,4 @@
 import { generateRandomBuildGraph } from "../../services/api";
-// HERE  calculate node positions
 
 export const calculateNodePositions = (
   nodes,
@@ -208,12 +207,20 @@ export const fetchAndGenerateGraph = async (
   nodeSize,
   maxIterations,
   optimalDistance,
-  setGraphFormats // Add this parameter to handle graph formats
+  setGraphFormats,
+  setLoading,
+  setDelayedLoading // Add this parameter to handle delayed loading state
 ) => {
   const containerWidth = svgWidth;
   const containerHeight = svgHeight;
 
+  let timer = setTimeout(() => {
+    setDelayedLoading(true);
+  }, 1750); // Set the delayed loading state after 1.75 seconds
+
   try {
+    setLoading(true);
+
     const data = await generateRandomBuildGraph(
       numNodes,
       numEdges,
@@ -244,9 +251,12 @@ export const fetchAndGenerateGraph = async (
   } catch (err) {
     console.error("🚀 ~ fetchRandomBuildGraph ~ error:", err);
     setError("Failed to fetch external graph data");
+  } finally {
+    clearTimeout(timer);
+    setDelayedLoading(false);
+    setLoading(false);
   }
 };
-
 export const centerGraph = (nodes, setTransform, svgWidth, svgHeight) => {
   const minX = Math.min(...nodes.map((node) => node.x));
   const minY = Math.min(...nodes.map((node) => node.y));

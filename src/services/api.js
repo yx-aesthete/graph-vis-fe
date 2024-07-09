@@ -1,6 +1,8 @@
 import axios from "axios";
 
-const API_URL = process.env.REACT_APP_API_URL;
+// const API_URL = process.env.REACT_APP_API_URL;
+const API_URL = "https://graph-vis-be.onrender.com";
+// const API_URL = "http://192.168.100.98:5001/";
 
 export const getBfsTraversal = async (graph) => {
   const response = await axios.post(`${API_URL}/traversal/bfs`, graph);
